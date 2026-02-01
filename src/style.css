@@ -1,0 +1,381 @@
+/* CSS Custom Properties */
+:root {
+  --color-bg: #0a0a0a;
+  --color-gold: #d4af37;
+  --color-amber: #ffbf00;
+  --color-lightning: #ffffff;
+  --color-lightning-blue: #e0f0ff;
+  --color-text: #f5f5f5;
+}
+
+/* CSS Reset & Base */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html,
+body {
+  height: 100dvh;
+  background-color: var(--color-bg);
+  font-family: "Noto Sans JP", sans-serif;
+  overflow: hidden;
+}
+
+/* Loading State */
+.loading {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1000;
+  background: var(--color-bg);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.loading-pulse {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: var(--color-gold);
+  box-shadow:
+    0 0 20px var(--color-gold),
+    0 0 40px var(--color-gold),
+    0 0 60px var(--color-amber);
+  animation: pulse 2s infinite;
+}
+
+/* Particles Container */
+#particles {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+}
+
+/* Lightning Overlay */
+#lightning-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 10;
+  background: rgba(255, 255, 255, 0.9);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.05s;
+  will-change: opacity;
+}
+
+/* Content */
+.content {
+  position: relative;
+  z-index: 5;
+  height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.content.hidden {
+  opacity: 0;
+  visibility: hidden;
+}
+
+/* Title Container */
+.title-container {
+  position: relative;
+}
+
+/* Title */
+.title {
+  position: relative;
+  font-family: "Zen Old Mincho", serif;
+  font-size: clamp(4rem, 20vw, 12rem);
+  color: var(--color-text);
+  text-shadow:
+    0 0 10px var(--color-gold),
+    0 0 20px var(--color-gold),
+    0 0 30px var(--color-amber),
+    0 0 40px var(--color-amber),
+    0 0 50px var(--color-gold),
+    0 0 60px var(--color-gold),
+    0 0 80px var(--color-amber),
+    0 0 100px var(--color-gold);
+  opacity: 0;
+  transform: scale(0.8);
+  filter: blur(10px);
+  will-change: transform, filter, opacity;
+}
+
+/* Glitch effect pseudo-elements */
+.title::before,
+.title::after {
+  content: attr(data-text);
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: var(--color-bg);
+  opacity: 0;
+  pointer-events: none;
+  text-shadow:
+    0 0 10px var(--color-gold),
+    0 0 20px var(--color-gold);
+}
+
+.title.glitch::before {
+  left: 2px;
+  color: #ff0000;
+  text-shadow: -2px 0 #ff0000;
+  animation: glitch 0.3s ease-in-out;
+  opacity: 0.7;
+  background: transparent;
+}
+
+.title.glitch::after {
+  left: -2px;
+  color: #00ffff;
+  text-shadow: 2px 0 #00ffff;
+  animation: glitch 0.3s ease-in-out reverse;
+  opacity: 0.7;
+  background: transparent;
+}
+
+/* Title glow pulse animation (applied after entrance) */
+.title.glow-pulse {
+  animation: glow-pulse 2s ease-in-out 3;
+}
+
+/* Tagline */
+.tagline {
+  font-family: "Noto Sans JP", sans-serif;
+  font-size: clamp(1rem, 4vw, 1.5rem);
+  color: var(--color-text);
+  letter-spacing: 0.2em;
+  margin-top: 2rem;
+  opacity: 0;
+  transform: translateY(20px);
+  will-change: transform, opacity;
+}
+
+/* Coming Soon */
+.coming-soon {
+  font-size: clamp(0.8rem, 2vw, 1rem);
+  color: var(--color-gold);
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  margin-top: 3rem;
+  opacity: 0;
+}
+
+/* Vignette Effect */
+#vignette {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 2;
+  pointer-events: none;
+  background: radial-gradient(ellipse at center, transparent 40%, rgba(0, 0, 0, 0.6) 100%);
+}
+
+/* Slash Effect Overlay */
+#slash-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 15;
+  pointer-events: none;
+  opacity: 0;
+}
+
+.slash-line {
+  position: absolute;
+  background: linear-gradient(90deg, transparent, #fff, var(--color-gold), #fff, transparent);
+  height: 3px;
+  width: 150%;
+  left: -25%;
+  top: 50%;
+  transform: rotate(-15deg) scaleX(0);
+  transform-origin: left center;
+  box-shadow: 0 0 30px var(--color-gold), 0 0 60px var(--color-amber);
+  will-change: transform;
+}
+
+.slash-line.animate {
+  animation: slash 0.3s ease-out forwards;
+}
+
+/* Burst Effect Overlay */
+#burst-overlay {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  z-index: 8;
+  border-radius: 50%;
+  background: radial-gradient(circle, var(--color-gold) 0%, transparent 70%);
+  transform: translate(-50%, -50%);
+  opacity: 0;
+  pointer-events: none;
+  will-change: width, height, opacity;
+}
+
+.burst-animate {
+  animation: burst 0.6s ease-out forwards;
+}
+
+/* Keyframe Animations */
+@keyframes pulse {
+  0% {
+    opacity: 0.6;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0.6;
+  }
+}
+
+@keyframes glow-pulse {
+  0%,
+  100% {
+    text-shadow:
+      0 0 10px var(--color-gold),
+      0 0 20px var(--color-gold),
+      0 0 30px var(--color-amber),
+      0 0 40px var(--color-amber),
+      0 0 50px var(--color-gold),
+      0 0 60px var(--color-gold),
+      0 0 80px var(--color-amber),
+      0 0 100px var(--color-gold);
+  }
+  50% {
+    text-shadow:
+      0 0 15px var(--color-gold),
+      0 0 30px var(--color-gold),
+      0 0 45px var(--color-amber),
+      0 0 60px var(--color-amber),
+      0 0 75px var(--color-gold),
+      0 0 90px var(--color-gold),
+      0 0 120px var(--color-amber),
+      0 0 150px var(--color-gold);
+  }
+}
+
+/* Screen Shake */
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+  20%, 40%, 60%, 80% { transform: translateX(5px); }
+}
+
+.shake {
+  animation: shake 0.5s ease-in-out;
+}
+
+/* Slash Animation */
+@keyframes slash {
+  0% { transform: rotate(-15deg) scaleX(0); opacity: 1; }
+  60% { transform: rotate(-15deg) scaleX(1); opacity: 1; }
+  100% { transform: rotate(-15deg) scaleX(1); opacity: 0; }
+}
+
+/* Glitch Animation */
+@keyframes glitch {
+  0% { clip-path: inset(40% 0 61% 0); transform: translate(-2px, 2px); }
+  20% { clip-path: inset(92% 0 1% 0); transform: translate(2px, -2px); }
+  40% { clip-path: inset(43% 0 1% 0); transform: translate(-2px, 2px); }
+  60% { clip-path: inset(25% 0 58% 0); transform: translate(2px, -2px); }
+  80% { clip-path: inset(54% 0 7% 0); transform: translate(-2px, 2px); }
+  100% { clip-path: inset(58% 0 43% 0); transform: translate(0); }
+}
+
+/* Burst Animation */
+@keyframes burst {
+  0% { width: 0; height: 0; opacity: 0.8; }
+  100% { width: 200vmax; height: 200vmax; opacity: 0; }
+}
+
+/* Float Animation for Tagline */
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-5px); }
+}
+
+.tagline.revealed {
+  animation: float 4s ease-in-out infinite;
+}
+
+/* Coming Soon Pulse */
+@keyframes coming-soon-pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+.coming-soon.revealed {
+  animation: coming-soon-pulse 2s ease-in-out infinite;
+}
+
+/* Reduced Motion Support */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+
+  .title {
+    opacity: 1 !important;
+    transform: scale(1) !important;
+    filter: none !important;
+  }
+
+  .tagline,
+  .coming-soon {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+
+  .tagline.revealed,
+  .coming-soon.revealed {
+    animation: none !important;
+  }
+
+  .shake {
+    animation: none !important;
+  }
+
+  .slash-line.animate {
+    animation: none !important;
+  }
+
+  .title.glitch::before,
+  .title.glitch::after {
+    animation: none !important;
+    opacity: 0 !important;
+  }
+
+  .burst-animate {
+    animation: none !important;
+  }
+}
